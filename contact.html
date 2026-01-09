@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request a Demo - doingnow</title>
+  <meta name="description" content="Share a few details and we'll propose an initial AI opportunity map within days.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">doingnow</a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="platform.html">Platform</a>
+        <a href="solutions.html">Solutions</a>
+        <a href="programs.html">Programs</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="resources.html">Resources</a>
+        <a href="contact.html" class="cta-mini">Request Demo</a>
+      </nav>
+    </div>
+    <div class="overlay"></div>
+  </header>
+
+  <main class="main">
+    <section class="section">
+      <h2 class="section-title">Request a Demo</h2>
+      <p class="section-intro">Share a few details and we'll propose an initial AI opportunity map within days. You can also reach us directly at <a href="mailto:support@doingnow.ai" style="color: var(--brand);">support@doingnow.ai</a></p>
+      
+      <form class="contact-form wide" onsubmit="handleContactSubmit(event)">
+        <div id="form-status"></div>
+        <div class="form-row">
+          <input 
+            type="text" 
+            id="name"
+            name="name" 
+            placeholder="Full Name" 
+            required 
+          />
+          <input 
+            type="email" 
+            id="email"
+            name="email" 
+            placeholder="Work Email" 
+            required 
+          />
+        </div>
+        <input 
+          type="text" 
+          id="company"
+          name="company" 
+          placeholder="Company" 
+          required 
+        />
+        <input 
+          type="text" 
+          id="role"
+          name="role" 
+          placeholder="Role / Title" 
+        />
+        <textarea 
+          id="needs"
+          name="needs" 
+          placeholder="Briefly describe your AI goals" 
+          rows="5" 
+          required 
+        ></textarea>
+        <button type="submit" class="cta-btn primary">Submit</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3 class="logo">doingnow</h3>
+        <p>Accelerating AI transformation for businesses worldwide.</p>
+      </div>
+      <div class="footer-columns">
+        <div>
+          <h4>Programs</h4>
+          <ul>
+            <li><a href="#" aria-label="GenAI OEE Assistant placeholder">GenAI OEE Assistant</a></li>
+            <li><a href="#" aria-label="Automation Accelerator placeholder">Automation Accelerator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Case Studies</h4>
+          <ul>
+            <li><a href="#" aria-label="Healthcare optimization placeholder">Healthcare Ops</a></li>
+            <li><a href="#" aria-label="Financial services transformation placeholder">FinServ AI</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="blog.html" aria-label="Blog">Blog</a></li>
+            <li><a href="careers.html" aria-label="Jobs">Jobs</a></li>
+            <li><a href="privacy.html" aria-label="Privacy Policy">Privacy</a></li>
+            <li><a href="terms.html" aria-label="Terms of Service">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal">&copy; 2026 doingnow. All rights reserved.</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

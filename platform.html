@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform Architecture - doingnow</title>
+  <meta name="description" content="A modular stack combining orchestration, knowledge, and security layers so you can compose production AI faster.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">doingnow</a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="platform.html">Platform</a>
+        <a href="solutions.html">Solutions</a>
+        <a href="programs.html">Programs</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="resources.html">Resources</a>
+        <a href="contact.html" class="cta-mini">Request Demo</a>
+      </nav>
+    </div>
+    <div class="overlay"></div>
+  </header>
+
+  <main class="main">
+    <section class="section">
+      <h2 class="section-title">Platform Architecture</h2>
+      <p class="section-intro">A modular stack combining orchestration, knowledge, and security layers so you can compose production AI faster.</p>
+      
+      <div class="platform-subsection">
+        <h3 class="subsection-title">1. Knowledge Graph (The Semantic Foundation)</h3>
+        <p class="subsection-intro">The knowledge graph acts as the platform's "brain," organizing siloed data into a web of interconnected entities and relationships.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="card-heading">Contextual Grounding</h3>
+            <div class="card-body">Grounds AI models in business reality by defining how entities like customers, products, and processes relate, significantly reducing AI "hallucinations".</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Data Integration</h3>
+            <div class="card-body">As a virtual semantic layer, allows organizations to access distributed data across different systems without physical replication.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Discovery and Analytics</h3>
+            <div class="card-body">Platforms like SAP HANA Cloud and Neo4j use these graphs to uncover hidden patterns and accelerate decision-making through complex relationship traversal.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-subsection">
+        <h3 class="subsection-title">2. Workflow Engine (The Execution Layer)</h3>
+        <p class="subsection-intro">This layer translates the insights from the knowledge graph into coordinated actions.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="card-heading">Orchestration</h3>
+            <div class="card-body">Manages the sequence of tasks, such as creating a purchase request before a purchase order, ensuring business logic is followed.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Agentic AI</h3>
+            <div class="card-body">Modern engines support "agentic workflows," where AI agents use the knowledge graph to discover and execute the most relevant APIs in the correct order.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Efficiency</h3>
+            <div class="card-body">By automating routine logic (e.g., "if status = X, then send email Y"), frees human operators to focus on higher-level reasoning.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-subsection">
+        <h3 class="subsection-title">3. Security Layer (The Governance Framework)</h3>
+        <p class="subsection-intro">In 2025, the security layer is increasingly integrated directly with the knowledge graph to provide dynamic, context-aware protection.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="card-heading">Least Privilege & Zero Trust</h3>
+            <div class="card-body">Enforces strict identity and access management (IAM) across all platform assets, ensuring users and AI agents only access permitted data.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Compliance & Monitoring</h3>
+            <div class="card-body">Security operations (SecOps) use knowledge graphs to map cascading failures and detect redundant alerts, improving incident response speed.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Data Privacy</h3>
+            <div class="card-body">Specialized platforms like Obsidian Security use knowledge graphs to map every identity and activity across a SaaS estate to manage risk and sprawl.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-subsection">
+        <h3 class="subsection-title">4. Integration in Platform Architecture</h3>
+        <p class="subsection-intro">A robust 2025 platform architecture typically follows a multi-layered approach:</p>
+        <div class="grid-4">
+          <div class="card">
+            <h3 class="card-heading">Storage Layer</h3>
+            <div class="card-body">Consolidates data in lakes or specialized graph databases like Spanner or Neo4j.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Computational Layer</h3>
+            <div class="card-body">Handles processing and transformation of data using Apache Spark or Databricks.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Semantic/Reasoning Layer</h3>
+            <div class="card-body">Where the Knowledge Graph sits, bridging raw data and user intent.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">User Interface/API Layer</h3>
+            <div class="card-body">Allows interaction through natural language queries or traditional dashboards.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Data Onboarding</h2>
+      <p class="section-intro">Connect nearly any source with adapters and automated profiling.</p>
+      
+      <div class="platform-subsection">
+        <h3 class="subsection-title">1. Structured Data (SQL, Warehouses, OLTP)</h3>
+        <p class="subsection-intro">This data is typically onboarded via ELT (Extract, Load, Transform) to leverage the massive parallel processing of cloud warehouses.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="card-heading">Direct Replication (Zero-ETL)</h3>
+            <div class="card-body">For low-latency needs, 2025 architectures use Zero-ETL to replicate operational data directly into analytical stores without managing manual pipelines.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Change Data Capture (CDC)</h3>
+            <div class="card-body">Systems use CDC to stream incremental updates from OLTP databases, ensuring the data warehouse or lakehouse remains synchronized in near real-time.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Cloud Integration</h3>
+            <div class="card-body">Seamless connection with Amazon Aurora, Google BigQuery, Snowflake, and other enterprise data platforms.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-subsection">
+        <h3 class="subsection-title">2. Unstructured Data (Docs, PDFs, Chat Logs, Images)</h3>
+        <p class="subsection-intro">Unstructured data is the primary driver for Generative AI in 2025, requiring specialized "AI-ready" transformation.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="card-heading">Intelligent Parsing</h3>
+            <div class="card-body">Platforms like Unstructured.io or IBM watsonx.data automatically extract text, tables, and metadata from complex formats like PDFs and emails.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Vectorization & RAG</h3>
+            <div class="card-body">Extracted text is chunked and stored in vector databases (or vector-enabled warehouses like Snowflake) to support Retrieval-Augmented Generation (RAG).</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Multi-Modal Processing</h3>
+            <div class="card-body">Advanced OCR and vision models process images, charts, and diagrams alongside text content.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-subsection">
+        <h3 class="subsection-title">3. Streaming Data (Events, Telemetry, IoT Feeds)</h3>
+        <p class="subsection-intro">High-velocity data follows a streaming-first architecture to enable immediate reactions to real-time events.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="card-heading">Message Brokering</h3>
+            <div class="card-body">Tools like Apache Kafka and Google Cloud Pub/Sub act as the backbone, ingesting millions of events per second from IoT sensors and application telemetry.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">In-Flight Transformation</h3>
+            <div class="card-body">Modern pipelines use stream processing (e.g., Apache Flink) to enrich or filter data before it reaches permanent storage.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Real-Time Analytics</h3>
+            <div class="card-body">Immediate insights from event streams enable proactive decision-making and automated responses.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-subsection">
+        <h3 class="subsection-title">4. 3rd Party Data (External APIs & Partner Platforms)</h3>
+        <p class="subsection-intro">Onboarding external data focuses on connectivity and governance to bridge organizational silos.</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="card-heading">API Connectors</h3>
+            <div class="card-body">Platforms use pre-built SaaS connectors (e.g., Fivetran) to automate ingestion from external platforms like Salesforce, Shopify, or HubSpot.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Federated Access</h3>
+            <div class="card-body">Instead of physical movement, some 2025 architectures use Data Virtualization to query 3rd party datasets in place, reducing data redundancy and costs.</div>
+          </div>
+          <div class="card">
+            <h3 class="card-heading">Partner Ecosystem</h3>
+            <div class="card-body">Secure data sharing with partners through governed APIs and data clean rooms.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3 class="logo">doingnow</h3>
+        <p>Accelerating AI transformation for businesses worldwide.</p>
+      </div>
+      <div class="footer-columns">
+        <div>
+          <h4>Programs</h4>
+          <ul>
+            <li><a href="#" aria-label="GenAI OEE Assistant placeholder">GenAI OEE Assistant</a></li>
+            <li><a href="#" aria-label="Automation Accelerator placeholder">Automation Accelerator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Case Studies</h4>
+          <ul>
+            <li><a href="#" aria-label="Healthcare optimization placeholder">Healthcare Ops</a></li>
+            <li><a href="#" aria-label="Financial services transformation placeholder">FinServ AI</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="blog.html" aria-label="Blog">Blog</a></li>
+            <li><a href="careers.html" aria-label="Jobs">Jobs</a></li>
+            <li><a href="privacy.html" aria-label="Privacy Policy">Privacy</a></li>
+            <li><a href="terms.html" aria-label="Terms of Service">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal">&copy; 2026 doingnow. All rights reserved.</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

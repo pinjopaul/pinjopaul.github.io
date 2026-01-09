@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - doingnow</title>
+  <meta name="description" content="Insights on architecture patterns, adoption strategies, and the evolving AI landscape.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .blog-link {
+      display: inline-block;
+      margin-top: .75rem;
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .blog-link:hover {
+      color: var(--brand-600);
+      text-decoration: underline;
+    }
+    .newsletter-signup {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .newsletter-form {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .newsletter-input {
+      flex: 1;
+      padding: .85rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font: inherit;
+    }
+    .newsletter-note {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">doingnow</a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="platform.html">Platform</a>
+        <a href="solutions.html">Solutions</a>
+        <a href="programs.html">Programs</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="resources.html">Resources</a>
+        <a href="contact.html" class="cta-mini">Request Demo</a>
+      </nav>
+    </div>
+    <div class="overlay"></div>
+  </header>
+
+  <main class="main">
+    <section class="section">
+      <h2 class="section-title">Blog</h2>
+      <p class="section-intro">Insights on architecture patterns, adoption strategies, and the evolving AI landscape.</p>
+      
+      <div class="featured-posts">
+        <h3 class="subsection-title">Featured Articles</h3>
+        <div class="grid-3" style="grid-template-columns: repeat(2, 1fr);">
+          <article class="blog-card featured">
+            <div class="blog-category">Technology Trends</div>
+            <h3 class="blog-title">The Rise of Agentic AI: From Copilots to Autonomous Workflows</h3>
+            <p class="blog-excerpt">Explore how AI is evolving from simple assistants to autonomous agents capable of executing complex multi-step workflows with minimal human intervention.</p>
+            <div class="blog-meta">
+              <span>December 12, 2025</span>
+              <span>•</span>
+              <span>8 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+          
+          <article class="blog-card featured">
+            <div class="blog-category">Architecture</div>
+            <h3 class="blog-title">Building Enterprise Knowledge Graphs for AI Grounding</h3>
+            <p class="blog-excerpt">A practical guide to implementing knowledge graphs that reduce AI hallucinations and improve the accuracy of your GenAI applications.</p>
+            <div class="blog-meta">
+              <span>December 5, 2025</span>
+              <span>•</span>
+              <span>12 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+        </div>
+      </div>
+
+      <div class="all-posts" style="margin-top: 3rem;">
+        <h3 class="subsection-title">All Articles</h3>
+        <div class="grid-3">
+          <article class="blog-card">
+            <div class="blog-category">Best Practices</div>
+            <h3 class="blog-title">RAG vs. Fine-Tuning: Choosing the Right Approach</h3>
+            <p class="blog-excerpt">When should you use Retrieval-Augmented Generation versus fine-tuning your models? We break down the trade-offs and decision framework.</p>
+            <div class="blog-meta">
+              <span>November 28, 2025</span>
+              <span>•</span>
+              <span>10 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-category">Strategy</div>
+            <h3 class="blog-title">Measuring AI ROI: Metrics That Matter</h3>
+            <p class="blog-excerpt">Move beyond vanity metrics. Learn how to quantify the business impact of your AI investments with frameworks used by leading enterprises.</p>
+            <div class="blog-meta">
+              <span>November 20, 2025</span>
+              <span>•</span>
+              <span>7 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-category">Data Engineering</div>
+            <h3 class="blog-title">Zero-ETL and the Future of Data Integration</h3>
+            <p class="blog-excerpt">How modern data architectures are eliminating the need for traditional ETL pipelines and what it means for your AI data strategy.</p>
+            <div class="blog-meta">
+              <span>November 15, 2025</span>
+              <span>•</span>
+              <span>9 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-category">Compliance</div>
+            <h3 class="blog-title">AI Governance in 2025: NIST, EU AI Act, and Beyond</h3>
+            <p class="blog-excerpt">Navigate the evolving regulatory landscape with our comprehensive overview of AI governance frameworks and compliance requirements.</p>
+            <div class="blog-meta">
+              <span>November 8, 2025</span>
+              <span>•</span>
+              <span>11 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-category">Methodology</div>
+            <h3 class="blog-title">The Discovery Sprint: Our Proven 2-Week AI Assessment</h3>
+            <p class="blog-excerpt">A behind-the-scenes look at how we help enterprises identify high-value AI opportunities in just two weeks.</p>
+            <div class="blog-meta">
+              <span>November 1, 2025</span>
+              <span>•</span>
+              <span>6 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-category">Technology</div>
+            <h3 class="blog-title">Vector Databases Compared: Choosing Your Semantic Search Foundation</h3>
+            <p class="blog-excerpt">An in-depth comparison of Pinecone, Weaviate, Milvus, and native database vector capabilities for enterprise deployments.</p>
+            <div class="blog-meta">
+              <span>October 25, 2025</span>
+              <span>•</span>
+              <span>14 min read</span>
+            </div>
+            <a href="#" class="blog-link">Read Article →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Stay Updated</h2>
+      <p class="section-intro">Get the latest insights delivered to your inbox.</p>
+      
+      <div class="newsletter-signup">
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Newsletter signup functionality would be implemented here.');">
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            class="newsletter-input"
+            required 
+          />
+          <button type="submit" class="cta-btn primary">Subscribe</button>
+        </form>
+        <p class="newsletter-note">Join 5,000+ AI practitioners. Unsubscribe anytime.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3 class="logo">doingnow</h3>
+        <p>Accelerating AI transformation for businesses worldwide.</p>
+      </div>
+      <div class="footer-columns">
+        <div>
+          <h4>Programs</h4>
+          <ul>
+            <li><a href="#" aria-label="GenAI OEE Assistant placeholder">GenAI OEE Assistant</a></li>
+            <li><a href="#" aria-label="Automation Accelerator placeholder">Automation Accelerator</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Case Studies</h4>
+          <ul>
+            <li><a href="#" aria-label="Healthcare optimization placeholder">Healthcare Ops</a></li>
+            <li><a href="#" aria-label="Financial services transformation placeholder">FinServ AI</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="blog.html" aria-label="Blog">Blog</a></li>
+            <li><a href="careers.html" aria-label="Jobs">Jobs</a></li>
+            <li><a href="privacy.html" aria-label="Privacy Policy">Privacy</a></li>
+            <li><a href="terms.html" aria-label="Terms of Service">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal">&copy; 2026 doingnow. All rights reserved.</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
