@@ -409,9 +409,10 @@ img {
 .hero-subtitle {
   font-size: 1.15rem;
   color: #4a5d75;
-  margin: 0 0 2.5rem;
+  margin: 0 auto 2.5rem;
   line-height: 1.55;
   max-width: 640px;
+  text-align: center;
 }
 
 .hero-badge {
