@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ingestAI — Universal Data Ingestion & AI Search | doingnow</title>
+  <meta name="description" content="ingestAI by doingnow: connect any data source — SharePoint, SQL, S3, Snowflake, local files — and instantly make it searchable with LLM-powered Q&A." />
+  <style>
+    /* ── Reset ──────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ── Design tokens (matching doingnow dark theme) ───────────────────── */
+    :root {
+      --bg:          #0a0f1e;
+      --bg-card:     #111827;
+      --bg-card-2:   #1a2236;
+      --border:      rgba(255,255,255,.08);
+      --text:        #f0f4ff;
+      --muted:       #8b9dbf;
+      --accent:      #6d5dff;
+      --accent2:     #3b9eff;
+      --grad:        linear-gradient(135deg, #6d5dff 0%, #3b9eff 100%);
+      --grad-subtle: linear-gradient(135deg, rgba(109,93,255,.12) 0%, rgba(59,158,255,.12) 100%);
+      --radius:      12px;
+      --font:        'Inter', system-ui, -apple-system, sans-serif;
+      --mono:        'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ────────────────────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,15,30,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      font-size: 1.2rem; font-weight: 800;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -.5px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: .9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-links a.active { color: var(--text); }
+    .btn-demo {
+      background: var(--grad);
+      color: #fff !important;
+      padding: .45rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: .85rem;
+      transition: opacity .2s;
+    }
+    .btn-demo:hover { opacity: .88; text-decoration: none !important; }
+
+    /* ── Reusable helpers ───────────────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; }
+    .section { padding: 88px 0; }
+    .section-alt { background: #0d1425; }
+
+    .badge {
+      display: inline-block;
+      background: var(--grad-subtle);
+      border: 1px solid rgba(109,93,255,.3);
+      color: var(--accent2);
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .3rem .8rem; border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+
+    h1, h2, h3 { letter-spacing: -.3px; }
+    h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; line-height: 1.15; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; }
+    h3 { font-size: 1.05rem; font-weight: 600; }
+
+    .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Hero ───────────────────────────────────────────────────────────── */
+    .hero {
+      padding: 110px 0 90px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(109,93,255,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 780px; }
+    .hero p.lead {
+      margin-top: 1.25rem;
+      font-size: 1.15rem; color: var(--muted); max-width: 580px; line-height: 1.75;
+    }
+    .hero-cta { margin-top: 2.25rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--grad); color: #fff;
+      padding: .75rem 1.75rem; border-radius: 8px;
+      font-weight: 700; font-size: .95rem;
+      transition: opacity .2s; text-decoration: none;
+    }
+    .btn-primary:hover { opacity: .88; text-decoration: none; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem;
+      border: 1.5px solid var(--border); color: var(--text);
+      padding: .75rem 1.75rem; border-radius: 8px;
+      font-weight: 600; font-size: .95rem;
+      transition: border-color .2s, background .2s; text-decoration: none;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(109,93,255,.07); text-decoration: none; }
+    .hero-stats {
+      margin-top: 3.5rem;
+      display: flex; flex-wrap: wrap; gap: 2.5rem;
+    }
+    .stat-item strong { display: block; font-size: 1.6rem; font-weight: 800; }
+    .stat-item span { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+    /* ── Architecture flow ──────────────────────────────────────────────── */
+    .flow {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 0; align-items: center;
+      margin-top: 2.5rem;
+    }
+    .flow-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+    .flow-arrow {
+      text-align: center; font-size: 1.4rem; color: var(--accent);
+      padding: 0 .25rem;
+    }
+    .flow-icon { font-size: 1.6rem; margin-bottom: .4rem; }
+    .flow-label { font-size: .78rem; font-weight: 600; color: var(--text); }
+    .flow-sub { font-size: .68rem; color: var(--muted); margin-top: .2rem; }
+
+    /* ── Cards grid ─────────────────────────────────────────────────────── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: rgba(109,93,255,.4); transform: translateY(-2px); }
+    .card-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+      background: var(--grad-subtle); border: 1px solid rgba(109,93,255,.2);
+    }
+    .card h3 { margin-bottom: .5rem; font-size: .95rem; }
+    .card p  { font-size: .85rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── Sources grid ───────────────────────────────────────────────────── */
+    .sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .source-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1rem;
+      display: flex; align-items: center; gap: .85rem;
+    }
+    .source-card:hover { border-color: rgba(59,158,255,.35); }
+    .src-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .src-name { font-size: .88rem; font-weight: 600; }
+    .src-detail { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
+
+    /* ── Code block ─────────────────────────────────────────────────────── */
+    .code-wrap {
+      background: #080d1a;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .code-header {
+      padding: .6rem 1rem;
+      background: #0d1425;
+      border-bottom: 1px solid var(--border);
+      font-size: .72rem; color: var(--muted);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    pre {
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: .82rem;
+      line-height: 1.75;
+      color: #c9d5f0;
+    }
+    pre .c  { color: #5a6e99; font-style: italic; }   /* comment */
+    pre .k  { color: #7dd3fc; }                        /* keyword/flag */
+    pre .s  { color: #86efac; }                        /* string */
+    pre .p  { color: var(--accent); }                  /* prompt $ */
+
+    /* ── Two-column ─────────────────────────────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Section header ─────────────────────────────────────────────────── */
+    .section-header { max-width: 600px; }
+    .section-header p { margin-top: .75rem; color: var(--muted); line-height: 1.75; }
+
+    /* ── Use-cases ──────────────────────────────────────────────────────── */
+    .use-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .use-case {
+      padding: 1.5rem;
+      border-left: 3px solid var(--accent);
+      background: var(--bg-card);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .use-case h3 { font-size: .9rem; margin-bottom: .4rem; }
+    .use-case p  { font-size: .82rem; color: var(--muted); }
+
+    /* ── CTA strip ──────────────────────────────────────────────────────── */
+    .cta-strip {
+      background: var(--grad-subtle);
+      border: 1px solid rgba(109,93,255,.25);
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+    }
+    .cta-strip h2 { margin-bottom: .75rem; }
+    .cta-strip p  { color: var(--muted); max-width: 480px; margin: 0 auto 2rem; }
+    .cta-buttons  { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    footer {
+      background: #060b18;
+      border-top: 1px solid var(--border);
+      padding: 60px 5% 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .footer-brand p { font-size: .85rem; color: var(--muted); margin-top: .6rem; max-width: 260px; line-height: 1.65; }
+    .footer-col h4 { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .9rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .footer-col ul li a { font-size: .85rem; color: var(--muted); transition: color .2s; }
+    .footer-col ul li a:hover { color: var(--text); text-decoration: none; }
+    .footer-col ul li span { font-size: .85rem; color: #3d4d66; }
+    .footer-bottom {
+      max-width: 1100px; margin: 2.5rem auto 0;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+      font-size: .8rem; color: var(--muted);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .flow { grid-template-columns: 1fr; }
+      .flow-arrow { transform: rotate(90deg); font-size: 1rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────────────────────── -->
+<nav>
+  <a href="https://pinjopaul.github.io/index.html" class="nav-brand">doingnow</a>
+  <ul class="nav-links">
+    <li><a href="https://pinjopaul.github.io/platform.html">Platform</a></li>
+    <li><a href="https://pinjopaul.github.io/solutions.html">Solutions</a></li>
+    <li><a href="https://pinjopaul.github.io/programs.html">Programs</a></li>
+    <li><a href="https://pinjopaul.github.io/case-studies.html">Case Studies</a></li>
+    <li><a href="https://pinjopaul.github.io/resources.html">Resources</a></li>
+    <li><a href="https://pinjopaul.github.io/contact.html" class="btn-demo">Request Demo</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="badge">Open Source Tool by doingnow</div>
+      <h1>Meet <span class="grad-text">ingestAI</span><br/>Your data, instantly searchable.</h1>
+      <p class="lead">
+        Connect any data source — SharePoint, SQL databases, S3, Snowflake, local drives, PDFs,
+        Word, Excel, JSON — and make it conversational with LLM-powered Q&amp;A. One command
+        to ingest. One prompt to find anything.
+      </p>
+      <div class="hero-cta">
+        <a href="https://github.com/pinjopaul" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          View on GitHub
+        </a>
+        <a href="https://pinjopaul.github.io/contact.html" class="btn-outline">Request a Demo</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><strong class="grad-text">6+</strong><span>Data Connectors</span></div>
+        <div class="stat-item"><strong class="grad-text">7</strong><span>File Formats</span></div>
+        <div class="stat-item"><strong class="grad-text">RAG</strong><span>Powered by OpenAI</span></div>
+        <div class="stat-item"><strong class="grad-text">100%</strong><span>Local &amp; Private</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ─────────────────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge">Architecture</div>
+      <h2>From raw data to conversation in minutes</h2>
+      <p>ingestAI uses a Retrieval-Augmented Generation (RAG) pipeline. Data is parsed, chunked,
+         embedded, and stored locally — then retrieved semantically when you ask a question.</p>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-icon">📂</div>
+        <div class="flow-label">Source</div>
+        <div class="flow-sub">Files · DB · SharePoint · S3 · DW</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">🔍</div>
+        <div class="flow-label">Parse &amp; Chunk</div>
+        <div class="flow-sub">Text, tables &amp; metadata extracted</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">🧠</div>
+        <div class="flow-label">Embed</div>
+        <div class="flow-sub">OpenAI vector embeddings</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">🗄️</div>
+        <div class="flow-label">ChromaDB</div>
+        <div class="flow-sub">Local persistent vector store</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">💬</div>
+        <div class="flow-label">Chat UI / API</div>
+        <div class="flow-sub">GPT-powered answers with citations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ─────────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge">Features</div>
+      <h2>Everything you need to unlock your data</h2>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🔌</div>
+        <h3>Universal Connectors</h3>
+        <p>One-command ingestion from SharePoint, SQL databases, AWS S3, Snowflake, local disks,
+           and mounted network shares — no custom ETL scripts needed.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h3>Multi-Format Parsing</h3>
+        <p>Natively parses PDF, Word (.docx), Excel (.xlsx/.xls), JSON, and images (with EXIF
+           metadata extraction). Tables, text, and properties all captured.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>Conversational Q&amp;A</h3>
+        <p>Ask plain-English questions in the browser UI or via REST API. The LLM answers
+           using only your documents and always cites the source file.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Fully Local &amp; Private</h3>
+        <p>All data lives on your machine. The vector store is a local ChromaDB instance.
+           Only the query and relevant chunks leave your environment (to OpenAI).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>CLI-First Design</h3>
+        <p>The <code>ingest.py</code> CLI was built to run unattended — schedule it with
+           cron or a task scheduler for automatic nightly re-indexing of changing data.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>REST API Included</h3>
+        <p>Every function exposed via FastAPI: upload, list, delete, and query endpoints.
+           Integrate ingestAI into any internal tool or workflow in minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Supported sources ────────────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge">Data Sources</div>
+      <h2>Connect nearly any data source</h2>
+      <p>ingestAI ships connectors for the most common enterprise data locations.
+         Optional dependencies are installed only when needed.</p>
+    </div>
+    <div class="sources">
+      <div class="source-card">
+        <div class="src-icon">💾</div>
+        <div><div class="src-name">Local Disk / NAS</div><div class="src-detail">Any OS-mounted path, recursive scan</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">🔷</div>
+        <div><div class="src-name">SharePoint Online</div><div class="src-detail">Microsoft Graph API, app credentials</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">🗃️</div>
+        <div><div class="src-name">SQL Databases</div><div class="src-detail">PostgreSQL · MySQL · MSSQL · SQLite</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">☁️</div>
+        <div><div class="src-name">AWS S3</div><div class="src-detail">Any bucket &amp; prefix, IAM auth</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">❄️</div>
+        <div><div class="src-name">Snowflake DW</div><div class="src-detail">Any SQL query, DictCursor output</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">📁</div>
+        <div><div class="src-name">Network Shares</div><div class="src-detail">SMB · AFP · NFS mounted drives</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">📄</div>
+        <div><div class="src-name">PDF Documents</div><div class="src-detail">Text + tables via pdfplumber</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">📝</div>
+        <div><div class="src-name">Word / Excel</div><div class="src-detail">.docx · .xlsx · .xls with metadata</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">{}</div>
+        <div><div class="src-name">JSON Files</div><div class="src-detail">Nested objects fully serialised</div></div>
+      </div>
+      <div class="source-card">
+        <div class="src-icon">🖼️</div>
+        <div><div class="src-name">Images &amp; Metadata</div><div class="src-detail">EXIF, dimensions, format info</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Quick start ──────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <div class="badge">Quick Start</div>
+        <h2>Up and running in&nbsp;5 minutes</h2>
+        <p style="color:var(--muted); margin-top:.75rem; line-height:1.75;">
+          Install once, point at your data, then open the browser — or schedule the
+          CLI for nightly re-indexing. No cloud infrastructure required.
+        </p>
+        <ul style="margin-top:1.5rem; list-style:none; display:flex; flex-direction:column; gap:.75rem;">
+          <li style="display:flex; gap:.75rem; align-items:flex-start;">
+            <span style="background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; font-size:1.1rem;">01</span>
+            <div><strong>Install dependencies</strong><br/><span style="color:var(--muted); font-size:.85rem;">pip install -r requirements.txt</span></div>
+          </li>
+          <li style="display:flex; gap:.75rem; align-items:flex-start;">
+            <span style="background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; font-size:1.1rem;">02</span>
+            <div><strong>Add your OpenAI key</strong><br/><span style="color:var(--muted); font-size:.85rem;">cp .env.example .env  →  set OPENAI_API_KEY</span></div>
+          </li>
+          <li style="display:flex; gap:.75rem; align-items:flex-start;">
+            <span style="background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; font-size:1.1rem;">03</span>
+            <div><strong>Ingest your data</strong><br/><span style="color:var(--muted); font-size:.85rem;">python ingest.py local ~/Documents/reports</span></div>
+          </li>
+          <li style="display:flex; gap:.75rem; align-items:flex-start;">
+            <span style="background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; font-size:1.1rem;">04</span>
+            <div><strong>Start the web UI</strong><br/><span style="color:var(--muted); font-size:.85rem;">uvicorn app.main:app --port 8000</span></div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <div class="code-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+            <span>ingest.py — CLI reference</span>
+          </div>
+          <pre><span class="c"># Local folder or any mounted drive</span>
+<span class="p">$</span> python ingest.py local <span class="s">~/Documents/reports</span> <span class="k">--recursive</span>
+<span class="p">$</span> python ingest.py local <span class="s">/Volumes/NAS/Finance</span> <span class="k">--ext</span> .pdf <span class="k">--ext</span> .xlsx
+
+<span class="c"># SharePoint Online</span>
+<span class="p">$</span> python ingest.py sharepoint \
+    <span class="k">--site-url</span> <span class="s">https://company.sharepoint.com/sites/HR</span> \
+    <span class="k">--library</span> <span class="s">"Policy Documents"</span>
+
+<span class="c"># Any SQL database</span>
+<span class="p">$</span> python ingest.py database \
+    <span class="k">--url</span> <span class="s">"postgresql://user:pass@host/mydb"</span> \
+    <span class="k">--query</span> <span class="s">"SELECT id, title, body FROM articles"</span> \
+    <span class="k">--text-col</span> body
+
+<span class="c"># AWS S3</span>
+<span class="p">$</span> python ingest.py s3 <span class="k">--bucket</span> corp-docs <span class="k">--prefix</span> legal/
+
+<span class="c"># Snowflake data warehouse</span>
+<span class="p">$</span> python ingest.py snowflake \
+    <span class="k">--account</span> myorg.us-east-1 \
+    <span class="k">--database</span> PROD_DB \
+    <span class="k">--query</span> <span class="s">"SELECT TITLE, CONTENT FROM KNOWLEDGE_BASE"</span>
+
+<span class="c"># List everything indexed</span>
+<span class="p">$</span> python ingest.py list</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Use cases ────────────────────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge">Use Cases</div>
+      <h2>Built for real enterprise workflows</h2>
+    </div>
+    <div class="use-cases">
+      <div class="use-case">
+        <h3>📋 Policy &amp; Compliance Search</h3>
+        <p>Index SharePoint policy libraries and let employees ask plain-English
+           questions about HR policies, IT security standards, or compliance requirements.</p>
+      </div>
+      <div class="use-case">
+        <h3>📊 Financial Report Analysis</h3>
+        <p>Ingest quarterly PDFs, Excel models, and analyst notes from a shared drive.
+           Ask questions like "What was our EBITDA trend over the last 3 quarters?"</p>
+      </div>
+      <div class="use-case">
+        <h3>🏭 Operations Knowledge Base</h3>
+        <p>Pull SOPs, maintenance logs, and incident reports from a warehouse.
+           Field technicians can query procedures without searching through folders.</p>
+      </div>
+      <div class="use-case">
+        <h3>🔬 Research &amp; Discovery</h3>
+        <p>Ingest research papers, internal wikis, and data exports. Surface cross-document
+           insights that would take hours to find manually.</p>
+      </div>
+      <div class="use-case">
+        <h3>🛒 Product &amp; Catalogue Data</h3>
+        <p>Load product specs, pricing tables, and customer feedback from a database or S3.
+           Sales teams ask natural-language questions and get instant, cited answers.</p>
+      </div>
+      <div class="use-case">
+        <h3>🧑‍💼 HR &amp; Onboarding</h3>
+        <p>Make handbooks, benefit guides, and training materials instantly searchable.
+           New hires find answers without waiting for a colleague to respond.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ──────────────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="cta-strip">
+      <div class="badge">Get Started</div>
+      <h2>Start searching your data today</h2>
+      <p>ingestAI is open-source and runs entirely on your machine.
+         For enterprise deployment, managed hosting, and support, talk to the doingnow team.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/pinjopaul" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          View on GitHub
+        </a>
+        <a href="https://pinjopaul.github.io/contact.html" class="btn-outline">Talk to an Expert</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-brand" style="font-size:1.1rem;">doingnow</div>
+      <p>Accelerating AI transformation for businesses worldwide.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Programs</h4>
+      <ul>
+        <li><span>GenAI OEE Assistant</span></li>
+        <li><span>Automation Accelerator</span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Case Studies</h4>
+      <ul>
+        <li><span>Healthcare optimization</span></li>
+        <li><span>Financial services transformation</span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="https://pinjopaul.github.io/blog.html">Blog</a></li>
+        <li><a href="https://pinjopaul.github.io/careers.html">Jobs</a></li>
+        <li><a href="https://pinjopaul.github.io/privacy.html">Privacy Policy</a></li>
+        <li><a href="https://pinjopaul.github.io/terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 doingnow. All rights reserved.</span>
+    <span>ingestAI is open-source software.</span>
+  </div>
+</footer>
+
+</body>
+</html>
