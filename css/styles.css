@@ -71,6 +71,15 @@ img {
   font-size: 2rem;
   font-weight: 800;
   margin: 0 0 .75rem;
+  color: var(--text);
+}
+
+/* Gradient accent on section headings — matches ingestai style */
+.section.centered .section-title {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .section-intro {
@@ -381,6 +390,9 @@ img {
 /* ── Solutions dropdown ─────────────────────────────────────────────────── */
 .nav-dropdown {
   position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
 }
 
 .nav-dropdown-trigger {
@@ -403,7 +415,7 @@ img {
 
 .nav-dropdown-menu {
   position: absolute;
-  top: calc(100% + .75rem);
+  top: 100%;
   left: 0;
   min-width: 180px;
   background: rgba(10,15,30,.97);
@@ -477,11 +489,28 @@ img {
   margin: 0 auto;
   padding: 7rem 2rem 5rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-block::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(109,93,255,.22) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero-content {
   max-width: 880px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
@@ -490,7 +519,10 @@ img {
   letter-spacing: -1px;
   line-height: 1.1;
   margin: 0 0 1.25rem;
-  color: var(--text);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-subtitle {
