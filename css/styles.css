@@ -356,6 +356,7 @@ img {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  align-self: stretch; /* stretch to full 64px navbar height so dropdown has no hover gap */
 }
 
 .nav-links > a {
@@ -432,6 +433,16 @@ img {
 .nav-dropdown:hover .nav-dropdown-menu,
 .nav-dropdown:focus-within .nav-dropdown-menu {
   display: flex;
+}
+
+/* Transparent bridge — prevents hover from dropping when mouse crosses the gap */
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 20px;
 }
 
 .nav-dropdown-menu a {
